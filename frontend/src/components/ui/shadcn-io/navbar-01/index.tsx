@@ -191,9 +191,12 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
           {/* Right side */}
           <div className="flex items-center gap-3">
             <a href="#">
-              <img src={profile} alt="" className="w-10 h-10 rounded-sm" />
+              <img
+                src={profile}
+                alt="profile"
+                className="w-10 h-10 rounded-sm"
+              />
             </a>
-
             {/* Mobile menu trigger */}
             {isMobile && (
               <Popover>
