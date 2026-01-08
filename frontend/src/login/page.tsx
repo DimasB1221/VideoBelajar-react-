@@ -2,8 +2,52 @@ import { CardForm } from "@/components/ui/cardForm";
 import { Navbar01 } from "@/components/ui/shadcn-io/navbar-01";
 import { Button } from "@/components/ui/button";
 import { allInput } from "@/components/ui/cardForm";
+import { supabase } from "@/lib/supabaseClient";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 function LoginPage() {
+  const [formData, setFormData] = useState<LoginFormData>({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { email, password } = formData;
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+      if (data.user) {
+        navigate("/dashboard");
+      }
+      console.log(data, error);
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const selectedInput = [1, 4];
   const loginInput = allInput.filter((_, index) =>
     selectedInput.includes(index)
@@ -17,7 +61,10 @@ function LoginPage() {
           <p className="sub-heading text-center mt-1">
             Yuk, lanjutin belajarmu di videobelajar.
           </p>
-          <form action="" className="relative w-[80vw] mx-auto md:w-[500px]">
+          <form
+            onSubmit={handleAuth}
+            className="relative w-[80vw] mx-auto md:w-[500px]"
+          >
             {loginInput.map((input) => (
               <CardForm
                 key={input.name}
@@ -26,6 +73,8 @@ function LoginPage() {
                 type={input.type}
                 placeholder={input.placeholder}
                 className={input.customClass}
+                value={formData[input.name as keyof LoginFormData]}
+                onChange={handleChange}
               />
             ))}
             <a
