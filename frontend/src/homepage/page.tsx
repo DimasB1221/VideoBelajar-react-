@@ -1,14 +1,9 @@
 import { Navbar01 } from "@/components/ui/shadcn-io/navbar-01";
-import hero from "@/assets/hero.jpg";
+import hero from "../../public/hero.jpg";
 import { Button } from "@/components/ui/button";
 import Card from "@/homepage/card";
-import cardimage1 from "@/assets/card-assets/cardimage1.jpg";
-import cardimage2 from "@/assets/card-assets/cardimage2.jpg";
-import cardimage3 from "@/assets/card-assets/cardimage3.jpg";
-import profile1 from "@/assets/profile-card/profilecard1.png"; // Import profile image
-import profile2 from "@/assets/profile-card/profilecard2.png"; // Import profile image
-import profile3 from "@/assets/profile-card/profilecard3.png"; // Import profile image
-import newsletter from "@/assets/newsletter.jpg";
+
+import newsletter from "../../public/newsletter.jpg";
 import Footer from "@/components/ui/footer";
 import { productService } from "@/services/productServices";
 import { useState, useEffect } from "react";
@@ -27,6 +22,7 @@ function HomePage() {
           setProducts(response);
         }
       } catch (error) {
+        console.error("Error fetching products:", error);
         setError("Failed to fetch products");
       } finally {
         setLoading(false);
