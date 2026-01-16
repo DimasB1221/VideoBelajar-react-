@@ -1,17 +1,35 @@
 import { Navbar01 } from "@/components/ui/shadcn-io/navbar-01";
-import hero from "@/assets/hero.jpg";
+import hero from "../../public/hero.jpg";
 import { Button } from "@/components/ui/button";
 import Card from "@/homepage/card";
-import cardimage1 from "@/assets/card-assets/cardimage1.jpg";
-import cardimage2 from "@/assets/card-assets/cardimage2.jpg";
-import cardimage3 from "@/assets/card-assets/cardimage3.jpg";
-import profile1 from "@/assets/profile-card/profilecard1.png"; // Import profile image
-import profile2 from "@/assets/profile-card/profilecard2.png"; // Import profile image
-import profile3 from "@/assets/profile-card/profilecard3.png"; // Import profile image
-import newsletter from "@/assets/newsletter.jpg";
+
+import newsletter from "../../public/newsletter.jpg";
 import Footer from "@/components/ui/footer";
+import { productService } from "@/services/productServices";
+import { useState, useEffect } from "react";
+import { type Courses } from "@/types/courses";
 
 function HomePage() {
+  const [products, setProducts] = useState<Courses[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await productService.getAll();
+        if (response) {
+          setProducts(response);
+        }
+      } catch (error) {
+        console.error("Error fetching products:", error);
+        setError("Failed to fetch products");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProducts();
+  }, []);
   return (
     <>
       {/* header section */}
@@ -77,96 +95,19 @@ function HomePage() {
           >
             {" "}
             {/* Added pb-10 for bottom spacing */}
-            <Card
-              img={cardimage1}
-              name="Big 4 Auditor Financial Analyst"
-              description="Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik."
-              profileImg={profile1}
-              profileName="Jenna Ortega"
-              profileDesc="Senior Accountant di Gojek"
-              rate="3.5 (86)"
-              price="Rp 300K"
-            />
-            <Card
-              img={cardimage2}
-              name="Big 4 Auditor Financial Analyst"
-              description="Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik."
-              profileImg={profile2}
-              profileName="Jenna Ortega"
-              profileDesc="Senior Accountant di Gojek"
-              rate="3.5 (86)"
-              price="Rp 300K"
-            />
-            <Card
-              img={cardimage3}
-              name="Big 4 Auditor Financial Analyst"
-              description="Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik."
-              profileImg={profile3}
-              profileName="Jenna Ortega"
-              profileDesc="Senior Accountant di Gojek"
-              rate="3.5 (86)"
-              price="Rp 300K"
-            />
-            <Card
-              img={cardimage1}
-              name="Big 4 Auditor Financial Analyst"
-              description="Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik."
-              profileImg={profile1}
-              profileName="Jenna Ortega"
-              profileDesc="Senior Accountant di Gojek"
-              rate="3.5 (86)"
-              price="Rp 300K"
-            />
-            <Card
-              img={cardimage2}
-              name="Big 4 Auditor Financial Analyst"
-              description="Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik."
-              profileImg={profile2}
-              profileName="Jenna Ortega"
-              profileDesc="Senior Accountant di Gojek"
-              rate="3.5 (86)"
-              price="Rp 300K"
-            />
-            <Card
-              img={cardimage3}
-              name="Big 4 Auditor Financial Analyst"
-              description="Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik."
-              profileImg={profile3}
-              profileName="Jenna Ortega"
-              profileDesc="Senior Accountant di Gojek"
-              rate="3.5 (86)"
-              price="Rp 300K"
-            />
-            <Card
-              img={cardimage1}
-              name="Big 4 Auditor Financial Analyst"
-              description="Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik."
-              profileImg={profile1}
-              profileName="Jenna Ortega"
-              profileDesc="Senior Accountant di Gojek"
-              rate="3.5 (86)"
-              price="Rp 300K"
-            />
-            <Card
-              img={cardimage2}
-              name="Big 4 Auditor Financial Analyst"
-              description="Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik."
-              profileImg={profile2}
-              profileName="Jenna Ortega"
-              profileDesc="Senior Accountant di Gojek"
-              rate="3.5 (86)"
-              price="Rp 300K"
-            />
-            <Card
-              img={cardimage3}
-              name="Big 4 Auditor Financial Analyst"
-              description="Mulai transformasi dengan instruktur profesional, harga yang terjangkau, dan kurikulum terbaik."
-              profileImg={profile3}
-              profileName="Jenna Ortega"
-              profileDesc="Senior Accountant di Gojek"
-              rate="3.5 (86)"
-              price="Rp 300K"
-            />
+            {products.map((product) => (
+              <Card
+                key={product.id}
+                img={product.img}
+                name={product.name}
+                description={product.description}
+                profileImg={product.profileImg}
+                profileName={product.profileName}
+                profileDesc={product.profileDesc}
+                rate={product.rate}
+                price={product.price}
+              />
+            ))}
           </section>
         </section>
         {/* newsletter section */}

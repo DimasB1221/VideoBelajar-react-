@@ -2,8 +2,67 @@ import { CardForm } from "@/components/ui/cardForm";
 import { Navbar01 } from "@/components/ui/shadcn-io/navbar-01";
 import { Button } from "@/components/ui/button";
 import { allInput } from "@/components/ui/cardForm";
+import { supabase } from "@/lib/supabaseClient";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+interface RegisterFormData {
+  email: string;
+  password: string;
+  name: string;
+  gender: string;
+  no_hp: string;
+  confirm_password: string;
+}
 
 function RegisterPage() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    name: "",
+    gender: "",
+    no_hp: "",
+    confirm_password: "",
+  });
+  const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleAuth = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const { email, password, name, gender, no_hp, confirm_password } = formData;
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: {
+            name: name,
+            gender: gender,
+            no_hp: no_hp,
+            confirm_password: confirm_password,
+          },
+        },
+      });
+      if (data.user?.email !== null) {
+        navigate("/login");
+      }
+    } catch (error: any) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <>
       <Navbar01 />
@@ -14,7 +73,7 @@ function RegisterPage() {
             Yuk, daftarkan akunmu sekarang juga!
           </p>
           <form
-            action=""
+            onSubmit={handleAuth}
             className="relative w-[80vw] mx-auto mt-4 md:w-[500px]"
           >
             {allInput.map((input) => (
@@ -26,6 +85,8 @@ function RegisterPage() {
                 placeholder={input.placeholder}
                 className={input.customClass}
                 options={input.options}
+                value={formData[input.name as keyof RegisterFormData]}
+                onChange={handleChange}
               />
             ))}
             <div className="flex justify-end mt-2">
