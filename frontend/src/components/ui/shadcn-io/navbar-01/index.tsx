@@ -15,13 +15,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import profile from "@/assets/profile.png";
+import profile from "../../../../../public/profile.png";
 
 // Simple logo component for the navbar
-const Logo = () => {
-  return (
-    <h1 className="text-xl font-bold text-[#FFBD3A] mx-auto">videobelajar</h1>
-  );
+const Logo = ({ judul }: { judul: string }) => {
+  return <h1 className="text-xl font-bold text-[#FFBD3A] mx-auto">{judul}</h1>;
 };
 
 // Hamburger icon component
@@ -83,6 +81,7 @@ const defaultNavigationLinks: Navbar01NavLink[] = [
   { href: "/register", label: "Register" },
   { href: "/login", label: "Login" },
   { href: "/products", label: "Products" },
+  { href: "/admin/dashboard", label: "Dashboard" },
   { href: "#", label: "Kategori" },
 ];
 
@@ -90,7 +89,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
   (
     {
       className,
-      logo = <Logo />,
+      logo = <Logo judul="videobelajar" />,
       logoHref = "#",
       navigationLinks = defaultNavigationLinks,
 
