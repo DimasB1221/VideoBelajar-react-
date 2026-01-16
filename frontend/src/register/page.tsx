@@ -50,6 +50,7 @@ function RegisterPage() {
             name: name,
             gender: gender,
             no_hp: no_hp,
+            confirm_password: confirm_password,
           },
         },
       });
@@ -57,7 +58,7 @@ function RegisterPage() {
         navigate("/login");
       }
     } catch (error: any) {
-      setError(error.message);
+      setError(error);
     } finally {
       setLoading(false);
     }
