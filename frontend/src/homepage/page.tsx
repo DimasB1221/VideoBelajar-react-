@@ -12,12 +12,14 @@ import { type Courses } from "@/types/courses";
 function HomePage() {
   const [products, setProducts] = useState<Courses[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string>("");
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
         const response = await productService.getAll();
+        if (error) throw error;
         if (response) {
           setProducts(response);
         }
@@ -95,19 +97,29 @@ function HomePage() {
           >
             {" "}
             {/* Added pb-10 for bottom spacing */}
-            {products.map((product) => (
-              <Card
-                key={product.id}
-                img={product.img}
-                name={product.name}
-                description={product.description}
-                profileImg={product.profileImg}
-                profileName={product.profileName}
-                profileDesc={product.profileDesc}
-                rate={product.rate}
-                price={product.price}
-              />
-            ))}
+            {loading ? (
+              <div className="col-span-full flex justify-center items-center py-20">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+              </div>
+            ) : error ? (
+              <div className="col-span-full text-center py-20 text-red-500">
+                {error}
+              </div>
+            ) : (
+              products.map((product) => (
+                <Card
+                  key={product.id}
+                  img={product.img}
+                  name={product.name}
+                  description={product.description}
+                  profileImg={product.profileImg}
+                  profileName={product.profileName}
+                  profileDesc={product.profileDesc}
+                  rate={product.rate}
+                  price={product.price}
+                />
+              ))
+            )}
           </section>
         </section>
         {/* newsletter section */}

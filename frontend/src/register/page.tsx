@@ -5,6 +5,7 @@ import { allInput } from "@/components/ui/cardForm";
 import { supabase } from "@/lib/supabaseClient";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Loader2 } from "lucide-react";
 
 interface RegisterFormData {
   email: string;
@@ -54,6 +55,7 @@ function RegisterPage() {
           },
         },
       });
+      if (error) throw error;
       if (data.user?.email !== null) {
         navigate("/login");
       }
@@ -95,11 +97,25 @@ function RegisterPage() {
               </a>
             </div>
 
+            {error && (
+              <div className="text-red-500 text-sm text-center mt-2 mb-2 bg-red-50 p-2 rounded">
+                {error}
+              </div>
+            )}
+
             <Button
               className="w-full mt-4 text-background font-bold"
               variant="green"
+              disabled={loading}
             >
-              Daftar
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Mendaftar...
+                </>
+              ) : (
+                "Daftar"
+              )}
             </Button>
             <Button className="w-full mt-2 font-bold mb-2" variant="youngGreen">
               Masuk
