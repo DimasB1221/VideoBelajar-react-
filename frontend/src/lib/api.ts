@@ -3,16 +3,28 @@ import axios, {
   type AxiosError,
   type AxiosResponse,
 } from "axios";
-
+import { supabaseUrl, supabaseAnonKey } from "./supabaseClient";
 // NOTE: Vite uses import.meta.env for environment variables.
 // Ensure VITE_API_URL is defined in your .env file.
 const api: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://api.example.com",
+  baseURL: `${supabaseUrl}/rest/v1`,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
+api.interceptors.request.use(
+  (request) => {
+    request.headers["apikey"] = supabaseAnonKey;
+    request.headers["Authorization"] = `Bearer ${supabaseAnonKey}`;
+
+    return request;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 api.interceptors.response.use(
   (response: AxiosResponse) => {
