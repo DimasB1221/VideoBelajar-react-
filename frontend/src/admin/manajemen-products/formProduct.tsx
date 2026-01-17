@@ -18,14 +18,14 @@ const FormProduct = ({
 }: FormProductProps) => {
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
-    price: initialData?.price || "",
+    img: initialData?.img || "",
+    description: initialData?.description || "",
     category: initialData?.category || "",
     profileName: initialData?.profileName || "",
     profileImg: initialData?.profileImg || "",
     profileDesc: initialData?.profileDesc || "",
+    price: initialData?.price || "",
     rate: initialData?.rate || "",
-    img: initialData?.img || "",
-    description: initialData?.description || "",
   });
   const isEdit = !!initialData;
 
@@ -78,6 +78,20 @@ const FormProduct = ({
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-gray-700">
+              URL Foto
+            </label>
+            <input
+              type="text"
+              name="img"
+              defaultValue={initialData?.img}
+              placeholder="https://..."
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label className="text-sm font-semibold text-gray-700">
               Harga (IDR) <span className="text-red-500">*</span>
             </label>
             <input
@@ -120,13 +134,13 @@ const FormProduct = ({
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-gray-700">
-              Rate Mentor
+              Image Mentor
             </label>
             <input
               type="text"
-              name="rate"
-              defaultValue={initialData?.rate}
-              placeholder="Contoh: Software Engineer"
+              name="profileImg"
+              defaultValue={initialData?.profileImg}
+              placeholder="https://..."
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               onChange={handleChange}
             />
@@ -134,13 +148,13 @@ const FormProduct = ({
 
           <div className="space-y-2">
             <label className="text-sm font-semibold text-gray-700">
-              URL Foto
+              Rate Mentor
             </label>
             <input
               type="text"
-              name="img"
-              defaultValue={initialData?.img}
-              placeholder="https://..."
+              name="rate"
+              defaultValue={initialData?.rate}
+              placeholder="Contoh: 3.5 (86)"
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               onChange={handleChange}
             />
@@ -149,7 +163,21 @@ const FormProduct = ({
 
         <div className="space-y-2">
           <label className="text-sm font-semibold text-gray-700">
-            Deskripsi
+            Deskripsi Mentor
+          </label>
+          <textarea
+            rows={4}
+            name="profileDesc"
+            defaultValue={initialData?.profileDesc}
+            placeholder="Deskripsi lengkap mentor..."
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm resize-none"
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-gray-700">
+            Deskripsi Product
           </label>
           <textarea
             rows={4}

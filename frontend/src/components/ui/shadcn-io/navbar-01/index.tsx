@@ -80,7 +80,7 @@ const defaultNavigationLinks: Navbar01NavLink[] = [
   { href: "/homepage", label: "Home" },
   { href: "/register", label: "Register" },
   { href: "/login", label: "Login" },
-  { href: "/products", label: "Products" },
+  // { href: "/products", label: "Products" },
   { href: "/admin/dashboard", label: "Dashboard" },
   { href: "#", label: "Kategori" },
 ];
