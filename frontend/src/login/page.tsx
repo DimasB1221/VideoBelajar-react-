@@ -42,7 +42,7 @@ function LoginPage() {
         throw error;
       }
       if (data.user) {
-        navigate("/dashboard");
+        navigate("/admin/dashboard");
       }
       console.log(data, error);
     } catch (error: any) {
