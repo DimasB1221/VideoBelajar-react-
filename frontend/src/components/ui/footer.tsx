@@ -54,7 +54,7 @@ function Footer() {
 
   return (
     <footer className="bg-white border-t border-gray-100 pt-5 pb-8 px-4 md:px-8 lg:px-16">
-      <div className="max-w-7xl mx-auto">
+      <div className="responsive-width mx-auto">
         <div className="flex flex-col lg:flex-row lg:justify-between gap-10 lg:gap-20">
           {/* Brand Section */}
           <div className="lg:w-1/3 space-y-4">

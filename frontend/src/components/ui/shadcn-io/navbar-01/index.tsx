@@ -18,8 +18,8 @@ import { cn } from "@/lib/utils";
 import profile from "../../../../../public/profile.png";
 
 // Simple logo component for the navbar
-const Logo = ({ judul }: { judul: string }) => {
-  return <h1 className="text-xl font-bold text-[#FFBD3A] mx-auto">{judul}</h1>;
+const Logo = () => {
+  return <img src="/logo-videobelajar.png" alt="Logo" className="h-8" />;
 };
 
 // Hamburger icon component
@@ -82,14 +82,13 @@ const defaultNavigationLinks: Navbar01NavLink[] = [
   { href: "/login", label: "Login" },
   // { href: "/products", label: "Products" },
   { href: "/admin/dashboard", label: "Dashboard" },
-  { href: "#", label: "Kategori" },
 ];
 
 export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
   (
     {
       className,
-      logo = <Logo judul="videobelajar" />,
+      logo = <Logo />,
       logoHref = "#",
       navigationLinks = defaultNavigationLinks,
 
@@ -152,7 +151,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
         )}
         {...(props as any)}
       >
-        <div className="container mx-auto flex h-16 max-w-screen-2xl items-center justify-between mx-auto gap-4 relative">
+        <div className="container mx-auto flex h-16 responsive-width items-center justify-between mx-auto gap-4 relative">
           {/* Left side */}
           <div className="flex items-center gap-2">
             <Link
