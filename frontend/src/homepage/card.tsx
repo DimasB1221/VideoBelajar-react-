@@ -22,13 +22,13 @@ function Card({
   price,
 }: CardProps) {
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden md:max-w-[320px] transition-all hover:shadow-md h-full grid grid-cols-2 sm:grid-cols-1 md:flex md:flex-col mx-auto justify-center items-center ">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sm:w-full md:max-w-[320px] transition-all hover:shadow-md h-full grid grid-cols-2 sm:grid-cols-1  mx-auto ">
       <div className="p-2 flex flex-col justify-between">
         <img
           src={img}
           alt={name}
           loading="lazy"
-          className="w-full md:h-[180px] md:w-[90vw] h-[100px] object-cover rounded-lg mx-auto"
+          className="w-full sm:h-[180px] md:h-[180px] md:w-[90vw] h-[100px] object-cover rounded-lg mx-auto"
         />
         {/* Mobile Stars */}
         <div className="flex items-center gap-1 mt-2 md:hidden">
