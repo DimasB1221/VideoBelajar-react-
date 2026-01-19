@@ -3,15 +3,6 @@
   background-color: #fffdf3;
 }
 
-@layer base {
-  p {
-    @apply text-[14px];
-  }
-  h1 {
-    @apply text-[24px];
-  }
-}
-
 @layer utilities {
   /* Hide scrollbar for Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {
@@ -23,4 +14,21 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
+
+  /* Bg hero image and newsletter */
+  .hero-bg {
+    background-image: url("/hero.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .newsletter-bg {
+    background-image: url("/newsletter.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* responsive width size */
 }
