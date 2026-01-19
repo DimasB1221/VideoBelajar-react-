@@ -127,10 +127,35 @@
   body {
     @apply text-foreground bg-[#FFFDF3];
   }
+  p {
+    @apply text-[14px] max-w-76 sm:max-w-xl md:max-w-2xl;
+  }
+  h1 {
+    @apply text-[24px] max-w-86  sm:max-w-xl md:max-w-2xl;
+  }
 }
 
 @layer utilities {
+  /* responsive width for all page or componentssection */
+  .responsive-width {
+    @apply max-w-86 sm:max-w-xl md:max-w-2xl lg:max-w-4xl xl:max-w-6xl;
+  }
+
   .sub-heading {
     @apply text-gray-500;
+  }
+}
+
+@layer components {
+  /* for all page */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+  /* information-section (homepage) */
+  .category-button {
+    @apply whitespace-nowrap text-sm font-medium cursor-pointer hover:bg-gray-50 hover:border-gray-300 transition-colors;
+  }
+  .overlay-style {
+    @apply text-center bg-black/80 rounded-md h-[335px] flex flex-col justify-center items-center absolute top-2;
   }
 }
