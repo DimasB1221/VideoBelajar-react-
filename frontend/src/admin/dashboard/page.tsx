@@ -1,10 +1,12 @@
 import { Sidebar } from "@/components/ui/sidebar";
 import InfoCard from "./infoCard";
 import { LayoutDashboard, Users, Package, ShoppingCart } from "lucide-react";
-
+import { supabase } from "@/lib/supabaseClient";
 import logo from "../../../public/logo-videobelajar.png";
-
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 function DashboardPage() {
+  const navigate = useNavigate();
   const sidebarItems = [
     {
       title: "Dashboard",
@@ -16,12 +18,12 @@ function DashboardPage() {
       href: "/admin/products",
       icon: <Package className="w-5 h-5" />,
     },
-    {
-      title: "Users",
-      href: "/admin/users",
-      icon: <Users className="w-5 h-5" />,
-    },
   ];
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/homepage");
+  };
 
   return (
     <div className="bg-[#FFFDF3] min-h-screen">
@@ -46,9 +48,12 @@ function DashboardPage() {
             </p>
           </div>
           {/* Logout button could go here if needed, consistent with image */}
-          <button className="px-4 py-2 bg-white border border-red-200 text-red-500 rounded-lg hover:bg-red-50 font-medium transition-colors">
+          <Button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-white border border-red-200 text-red-500 rounded-lg hover:bg-red-50 font-medium transition-colors"
+          >
             Logout
-          </button>
+          </Button>
         </header>
 
         {/* Stats Cards */}
