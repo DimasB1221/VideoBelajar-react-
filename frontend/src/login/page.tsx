@@ -42,7 +42,7 @@ function LoginPage() {
         throw error;
       }
       if (data.user) {
-        navigate("/admin/dashboard");
+        navigate("/homepage");
       }
       console.log(data, error);
     } catch (error: any) {
@@ -54,7 +54,7 @@ function LoginPage() {
 
   const selectedInput = [1, 4];
   const loginInput = allInput.filter((_, index) =>
-    selectedInput.includes(index)
+    selectedInput.includes(index),
   );
   return (
     <>
