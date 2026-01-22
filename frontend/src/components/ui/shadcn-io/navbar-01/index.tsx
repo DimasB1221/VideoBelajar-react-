@@ -15,7 +15,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import profile from "../../../../../public/profile.png";
+import { UserMenu } from "./user-menu";
+import { supabase } from "@/lib/supabaseClient";
 
 // Simple logo component for the navbar
 const Logo = () => {
@@ -81,7 +82,7 @@ const defaultNavigationLinks: Navbar01NavLink[] = [
   { href: "/register", label: "Register" },
   { href: "/login", label: "Login" },
   // { href: "/products", label: "Products" },
-  { href: "/admin/dashboard", label: "Dashboard" },
+  { href: "/admin/dashboard", label: "Dashboard", className: "lg:hidden" },
 ];
 
 export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
@@ -96,9 +97,10 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
       onCtaClick,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [isMobile, setIsMobile] = useState(false);
+    const [user, setUser] = useState<any>(null);
     const containerRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
@@ -123,11 +125,46 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
         resizeObserver.observe(containerRef.current);
       }
 
+      // Supabase Auth Listener
+      const checkUser = async () => {
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
+        setUser(session?.user ?? null);
+      };
+
+      checkUser();
+
+      const {
+        data: { subscription },
+      } = supabase.auth.onAuthStateChange((_event, session) => {
+        setUser(session?.user ?? null);
+      });
+
       return () => {
         resizeObserver.disconnect();
         clearTimeout(timeoutId);
+        subscription.unsubscribe();
       };
     }, []);
+
+    // Filter links based on auth state
+    const filteredLinks = navigationLinks.filter((link) => {
+      if (user) {
+        // If logged in, hide Login and Register
+        return (
+          link.label !== "Login" &&
+          link.label !== "Register" &&
+          link.label !== "Dashboard"
+        );
+      } else {
+        // If logged out, hide Dashboard? (Optional, user didn't explicitly ask but it makes sense.
+        // But user request was specifically about profile logo and login/register links).
+        // User request: "munculkan kembali ketika user sudah login [profile logo], dan ketika sudah login hilangkan pilihan login dan register"
+        // It implies if not logged in, show Login/Register.
+        return link.label !== "Dashboard";
+      }
+    });
 
     // Combine refs
     const combinedRef = React.useCallback(
@@ -139,7 +176,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
           ref.current = node;
         }
       },
-      [ref]
+      [ref],
     );
 
     return (
@@ -147,7 +184,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
         ref={combinedRef}
         className={cn(
           "sticky top-0 z-50 w-full border-b bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-background px-4 md:px-6 [&_*]:no-underline ",
-          className
+          className,
         )}
         {...(props as any)}
       >
@@ -167,7 +204,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
             <div className="hidden md:flex absolute left-1/2 -translate-x-1/2">
               <NavigationMenu>
                 <NavigationMenuList className="gap-2">
-                  {navigationLinks.map((link, index) => (
+                  {filteredLinks.map((link, index) => (
                     <NavigationMenuItem key={index}>
                       <Link
                         to={link.href}
@@ -175,7 +212,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                           "group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 cursor-pointer no-underline ",
                           link.active
                             ? "bg-accent text-accent-foreground"
-                            : "text-foreground/60 hover:text-foreground"
+                            : "text-foreground/60 hover:text-foreground",
                         )}
                       >
                         {link.label}
@@ -189,13 +226,8 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
 
           {/* Right side */}
           <div className="flex items-center gap-3">
-            <a href="#">
-              <img
-                src={profile}
-                alt="profile"
-                className="w-10 h-10 rounded-sm"
-              />
-            </a>
+            {user ? <UserMenu userEmail={user.email} /> : null}
+
             {/* Mobile menu trigger */}
             {isMobile && (
               <Popover>
@@ -211,7 +243,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                 <PopoverContent align="start" className="w-48 p-2">
                   <NavigationMenu className="max-w-none">
                     <NavigationMenuList className="flex-col items-start gap-1">
-                      {navigationLinks.map((link, index) => (
+                      {filteredLinks.map((link, index) => (
                         <NavigationMenuItem key={index} className="w-full">
                           <Link
                             to={link.href}
@@ -219,7 +251,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
                               "flex w-full items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground cursor-pointer no-underline",
                               link.active
                                 ? "bg-accent text-accent-foreground"
-                                : "text-foreground/80"
+                                : "text-foreground/80",
                             )}
                           >
                             {link.label}
@@ -235,7 +267,7 @@ export const Navbar01 = React.forwardRef<HTMLElement, Navbar01Props>(
         </div>
       </header>
     );
-  }
+  },
 );
 
 Navbar01.displayName = "Navbar01";
