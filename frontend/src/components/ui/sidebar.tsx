@@ -65,7 +65,7 @@ export function Sidebar({ className, items, ...props }: SidebarProps) {
       <div
         className={cn(
           "fixed inset-y-0 left-0 z-50 w-64 bg-background min-h-screen border-r transition-transform transform md:hidden",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          isOpen ? "translate-x-0" : "-translate-x-full",
         )}
       >
         <div className="flex justify-end ">
@@ -79,8 +79,8 @@ export function Sidebar({ className, items, ...props }: SidebarProps) {
       {/* Desktop Sidebar */}
       <div
         className={cn(
-          "pb-12 w-64 border-r min-h-screen absolute left-0 top-0  hidden md:block ",
-          className
+          "pb-12 w-64 border-r min-h-screen absolute left-0 top-0  hidden md:block bg-background",
+          className,
         )}
         {...props}
       >
