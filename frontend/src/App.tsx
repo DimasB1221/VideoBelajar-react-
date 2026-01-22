@@ -9,17 +9,13 @@ const RegisterPage = lazy(() => import("./register/page"));
 // const ProductPage = lazy(() => import("./products/page"));
 const DashboardPage = lazy(() => import("./admin/dashboard/page"));
 const ManajemenProductsPage = lazy(
-  () => import("./admin/manajemen-products/page")
+  () => import("./admin/manajemen-products/page"),
 );
 
 function App() {
   return (
     <Suspense
-      fallback={
-        <div className="flex h-screen w-full items-center justify-center">
-          Loading...
-        </div>
-      }
+      fallback={<div className="flex-center h-screen w-full ">Loading...</div>}
     >
       <Routes>
         <Route path="/" element={<HomePage />} />
