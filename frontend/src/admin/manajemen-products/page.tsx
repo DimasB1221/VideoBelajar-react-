@@ -9,11 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import CreateProducts from "./createProducts";
 
 function ManajemenProductsPage() {
-  const {
-    data: courses = [],
-    isLoading,
-    error,
-  } = useQuery<Courses[]>({
+  const { data: courses = [], error } = useQuery<Courses[]>({
     queryKey: ["courses"],
     queryFn: () => productService.getAll(),
   });
