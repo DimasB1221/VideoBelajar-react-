@@ -30,7 +30,7 @@ export const productService = {
   update: async (id: number, data: Partial<CreateCoursesDTO>) => {
     const response: AxiosResponse<Courses> = await api.patch(
       `${ENDPOINT}?id=eq.${id}`,
-      data
+      data,
     );
 
     return response.status;
