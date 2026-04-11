@@ -4,8 +4,8 @@
 
 To test the dashboard, please log in using the following credentials:
 
-- **Email:** samid11@gmail.com
-- **Password:** samid11
+- **Email:** admin1@gmail.com
+- **Password:** admin123
 
 > ⚠️ This project is still under development.  
 > The current focus is on improving performance, implementing robust error handling, and refactoring the codebase to follow clean code principles.
@@ -48,8 +48,8 @@ This project is built using modern, production-ready technologies to ensure perf
 
 Untuk menguji dashboard, silakan masuk menggunakan kredensial berikut:
 
-- **Email:** samid11@gmail.com
-- **Password:** samid11
+- **Email:** admin1@gmail.com
+- **Password:** admin123
 
 > ⚠️ Proyek ini masih dalam tahap pengembangan.  
 > Fokus saat ini adalah meningkatkan performa, menerapkan penanganan kesalahan yang robust, dan refactoring kode untuk mengikuti prinsip kode yang bersih.
